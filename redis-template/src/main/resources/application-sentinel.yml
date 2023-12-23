@@ -1,0 +1,13 @@
+spring:
+  redis:
+    password: "123456"
+    database: 0
+    sentinel:
+      nodes: 127.0.0.1:26379 # 添加多个redis哨兵地址,用逗号分割。注意不是写主备节点地址
+      master: mymaster # 哨兵配置中的集群名,配置文件sentinel.conf 中 sentinel monitor mymaster 127.0.0.1 6379 2
+    lettuce:
+      cluster:
+        refresh:
+          period: 2000 # 定时刷新周期
+          adaptive: true # 自适应拓扑刷新
+

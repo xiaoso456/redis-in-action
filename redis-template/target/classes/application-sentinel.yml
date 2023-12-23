@@ -1,0 +1,8 @@
+spring:
+  redis:
+    password: "123456"
+    database: 0
+    sentinel:
+      nodes: 127.0.0.1:6379 #添加多个redis地址,用逗号分割
+
+
