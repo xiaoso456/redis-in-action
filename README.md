@@ -1,5 +1,22 @@
 ## 简介
 更新一些 redis 使用示例
+
+## 环境准备
+
+### k8s
+
+k8s/k3s 下可以用helm快速使用现有charts创建standalone、sentinel、cluster模式的集群
+
+helm charts参考 [redis 18.6.1 · bitnami/bitnami (artifacthub.io)](https://artifacthub.io/packages/helm/bitnami/redis)
+
+cluster 模式 helm charts 参考 [redis-cluster 9.1.4 · bitnami/bitnami (artifacthub.io)](https://artifacthub.io/packages/helm/bitnami/redis-cluster)
+
+standalone 模式启动 `helm install my-redis bitnami/redis --version 18.5.0 --set architecture=standalone --set-string auth.password=123456 --set master.persistence.size=1Gi` 
+
+sentinel 模式启动 `helm install my-redis-sentinel bitnami/redis --version 18.5.0 --set architecture=replication  --set sentinel.enabled=true   --set-string auth.password=123456  --set master.persistence.size=1Gi `
+
+cluster 模式启动 `helm install my-redis-cluster bitnami/redis-cluster --version 9.1.4 --set-string global.redis.password=123456  --set persistence.size=1Gi --set cluster.nodes=6`
+
 ## lettuce
 lettuce 是一个Java Redis Client库，比起Jedis不需要维护线程池就能保证了单实例线程安全
 

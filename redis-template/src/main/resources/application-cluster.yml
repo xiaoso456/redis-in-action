@@ -3,7 +3,7 @@ spring:
     password: "123456"
     database: 0
     cluster:
-      nodes: 127.0.0.1:6379 # 集群模式下 redis 地址,多个用逗号分隔
+      nodes: my-redis-cluster.default:6379 # 集群模式下 redis 地址,多个用逗号分隔
     lettuce:
       cluster:
         refresh:
