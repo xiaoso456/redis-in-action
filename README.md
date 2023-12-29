@@ -31,5 +31,54 @@ lettuce 是一个Java Redis Client库，比起Jedis不需要维护线程池就�
 ### 设置刷新 redis 集群拓扑
 redisTemplate 底层使用的 lettuce 客户端,建立 redis 连接后,不会去主动获取 redis 集群内其他节点的地址信息,也就是说,如果配置的redis url所在节点挂掉了,即使有其他备用节点,也无法连接
 
+redis-template 底层默认使用的lettuce,根据redis集群部署模式,需要使用不同配的配置方式进行拓扑发现
+
+#### 哨兵模式
+
+哨兵（sentinel）模式可以参考 test 下 RedisTemplateSentinelDemo,配置文件如下
+
+```yaml
+spring:
+  redis:
+    database: 0
+    sentinel:
+      nodes: my-redis-sentinel.default:26379 # 添加多个redis哨兵地址,用逗号分割。注意不是写主备节点地址
+      master: mymaster # 哨兵配置中的集群名,配置文件sentinel.conf 中 sentinel monitor mymaster 127.0.0.1 6379 2
+      password: "123456" # 哨兵密码
+
+    lettuce:
+      cluster:
+        refresh:
+          period: 2000 # 定时刷新周期
+          adaptive: true # 自适应拓扑刷新
+    connect-timeout: 30000
+    password: "123456" # redis密码,哨兵模式redis密码和哨兵密码都要填写
+```
+
+#### 集群模式
+
+集群（cluster）模式可以参考 test 下 RedisTemplateClusterDemo，配置文件参考如下
+
+```yaml
+spring:
+  redis:
+    password: "123456"
+    database: 0
+    cluster:
+      nodes: my-redis-cluster.default:6379 # 集群模式下 redis 地址,多个用逗号分隔
+    lettuce:
+      cluster:
+        refresh:
+          period: 2000 # 定时刷新周期
+          adaptive: true # 自适应拓扑刷新
+
+```
+
+## Redission
+
+redisson 客户端封装了大量基于redis实现的高级特性，例如分布式锁和同步器、分布式对象、分布式集合、web session 管理等，一般常用作分布式锁
+
 
 ## 参考
+
+[Redisson PRO - Ultimate Redis Java client with features of In-Memory Data Grid](https://redisson.pro/)
