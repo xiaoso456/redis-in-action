@@ -78,7 +78,35 @@ spring:
 
 redisson 客户端封装了大量基于redis实现的高级特性，例如分布式锁和同步器、分布式对象、分布式集合、web session 管理等，一般常用作分布式锁
 
+### lock
+
+#### lock
+
+LockDemo.java 演示了分布式锁的最基本用法，设置了自动释放锁的时间
+
+#### CountDownLatch
+
+CountDownLatch 常用于主线程等待一个或多个子任务。使用时会初始化一个值count，可以调用方法让count减少，当count为0时，唤醒调用了await方法的线程
+
+CountDownLatchDemo.java 演示了一个线程等待其他线程完成任务再执行
+
+### objects
+
+#### 限速器 RateLimiter
+
+令牌桶限速：模拟一定容量的桶，每隔固定时间就会添加一个新的令牌到桶中，每来一个请求就从桶取出一个令牌，如果没有令牌就会被阻塞。
+
+redission只实现**部分**令牌桶算法，不能设置桶的总大小，只允许设置n秒生成m个令牌，令牌上限是m。
+
+RateLimiterDemo.java：演示设置了一个全局令牌桶，每2秒生成5个令牌
+
 
 ## 参考
 
 [Redisson PRO - Ultimate Redis Java client with features of In-Memory Data Grid](https://redisson.pro/)
+
+[从原理到实践，五分钟时间带你了解 Redisson 分布式锁的实现方案 - 掘金 (juejin.cn)](https://juejin.cn/post/7294563074937061387?searchId=202401071938048692477E976EB5C89765)
+
+[GitHub - redisson/redisson-examples: Redisson java examples](https://github.com/redisson/redisson-examples)
+
+[目录 · redisson/redisson Wiki · GitHub](https://github.com/redisson/redisson/wiki/目录)
