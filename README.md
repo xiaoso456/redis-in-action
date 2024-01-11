@@ -92,6 +92,12 @@ CountDownLatchDemo.java 演示了一个线程等待其他线程完成任务再�
 
 ### objects
 
+#### Bucket
+
+Bucket能方便地存储任何对象
+
+BucketDemo.java：演示了如何把一个User对象使用JacksonCodec序列化方式存储到Redis中，并反序列化读取
+
 #### 限速器 RateLimiter
 
 令牌桶限速：模拟一定容量的桶，每隔固定时间就会添加一个新的令牌到桶中，每来一个请求就从桶取出一个令牌，如果没有令牌就会被阻塞。
@@ -99,6 +105,23 @@ CountDownLatchDemo.java 演示了一个线程等待其他线程完成任务再�
 redission只实现**部分**令牌桶算法，不能设置桶的总大小，只允许设置n秒生成m个令牌，令牌上限是m。
 
 RateLimiterDemo.java：演示设置了一个全局令牌桶，每2秒生成5个令牌
+
+#### 布隆过滤器 Bloom Filter
+
+布隆过滤器可以检测一个元素在不在集合里，会有一定的误报率
+
+#### HyperLogLog
+
+HyperLogLog用来估算统计海量的不重复元素的数量，而且只需要很小的内存，误差范围在2%以内
+
+常用于：
+
++ 统计网站UV
++ 大数据分析中基数统计
+
+HyperLogLogDemo.java：演示了HyperLogLog的基本使用
+
+
 
 
 ## 参考
