@@ -121,6 +121,36 @@ HyperLogLog用来估算统计海量的不重复元素的数量，而且只需要
 
 HyperLogLogDemo.java：演示了HyperLogLog的基本使用
 
+### service
+
+
+
+#### Executor Service
+
+Redission 提供分布式服务功能，这里引入 RedissionNode 的概念，RedissionNode是用于执行分布式任务，如果把节点分为控制节点、工作节点，RedssionNode就是执行任务的工作节点
+
+Redisson的分布式执行服务实现了`java.util.concurrent.ExecutorService`接口，支持在不同的[独立节点](https://github.com/redisson/redisson/wiki/12.-独立节点模式)（RedissionNode）里执行基于`java.util.concurrent.Callable`接口或`java.lang.Runnable`接口或`Lambda`的任务
+
+控制节点提交任务时，会把整个 Runnable或Callable 任务Class信息转化并存放到 Redission中，工作节点自动使用ClassLoader加载这些信息，因此大部分情况下不要求任务Class在工作节点类路径中
+
+executor/ExecutorServiceDemo.java：演示了获取线程池，并向线程池提交12个EchoTask 任务
+
+executor/RedissionNodeDemo.java：演示了把自身注册为工作节点，并且设置对于`myExecutor0`服务，当前工作节点有1个工作线程
+
+executor/RedissionNodeDemo2.java：演示了把自身注册为工作节点，并且设置对于`myExecutor0`服务，当前工作节点有2个工作线程
+
+依次运行RedissionNodeDemo、RedissionNodeDemo2、ExecutorServiceDemo，可以看到提交的12个任务，有8个在工作节点2执行，有4个在工作节点1执行
+
+#### Scheduler Service
+
+Redisson提供分布式调度任务服务，我们可以提交一些定时任务、特定时间节点需要执行的任务，RedissonNode节点会对这些任务进行消费，可以控制一个任务在一个时间点只会被执行一次。比起xxl-job等分布式调度任务组件，使用redission可以让服务自身具有动态创建定时任务、管理定时任务的能力，缺点都由程序管理，不提供可视化能力。
+
+scheduler/SchedulerServiceDemo.java：演示了获取线程池，并向线程池中提交了一个id为`taskId` 的定时任务，该任务每五秒被执行一次
+
+scheduler/SchedulerServiceCancelDemo.java：演示了取消线程池中id为`taskId`的定时任务
+
+依次运行RedissionNodeDemo、RedissionNodeDemo2、SchedulerServiceDemo，可以看到每五秒在两个RedissonNode节点中执行一次任务，再执行SchedulerServiceCancelDemo取消任务
+
 
 
 
