@@ -17,7 +17,15 @@ sentinel 模式启动 `helm install my-redis-sentinel bitnami/redis --version 18
 
 cluster 模式启动 `helm install my-redis-cluster bitnami/redis-cluster --version 9.1.4 --set-string global.redis.password=123456  --set persistence.size=1Gi --set cluster.nodes=6`
 
+## 命令行
+
+命令行操作比较简单，用到的时候建议直接翻教程文档：
+
++ 常用对数据结构的操作：[Redis - Keys (tutorialspoint.com)](https://www.tutorialspoint.com/redis/redis_keys.htm)
++ 包含管理命令的官方文档：[COMMAND | Redis](https://redis.io/commands/command/)
+
 ## lettuce
+
 lettuce 是一个Java Redis Client库，比起Jedis不需要维护线程池就能保证了单实例线程安全
 
 ### 快速开始
